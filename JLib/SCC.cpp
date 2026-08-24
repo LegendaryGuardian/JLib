@@ -4,12 +4,10 @@ struct SCC {
     std::vector<int> stk;
     std::vector<int> dfn, low, bel;
     int cur, cnt;
-
     SCC() {}
     SCC(int n) {
         init(n);
     }
-
     void init(int n) {
         this->n = n;
         adj.assign(n, {});
@@ -19,15 +17,12 @@ struct SCC {
         stk.clear();
         cur = cnt = 0;
     }
-
     void addEdge(int u, int v) {
         adj[u].push_back(v);
     }
-
     void dfs(int x) {
         dfn[x] = low[x] = cur++;
         stk.push_back(x);
-
         for (auto y : adj[x]) {
             if (dfn[y] == -1) {
                 dfs(y);
@@ -36,7 +31,6 @@ struct SCC {
                 low[x] = std::min(low[x], dfn[y]);
             }
         }
-
         if (dfn[x] == low[x]) {
             int y;
             do {
@@ -47,7 +41,6 @@ struct SCC {
             cnt++;
         }
     }
-
     std::vector<int> work() {
         for (int i = 0; i < n; i++) {
             if (dfn[i] == -1) {

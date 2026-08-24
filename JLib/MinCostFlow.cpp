@@ -1,4 +1,4 @@
-template<class T>
+template <class T>
 struct MinCostFlow {
     struct _Edge {
         int to;
@@ -11,6 +11,21 @@ struct MinCostFlow {
     std::vector<std::vector<int>> g;
     std::vector<T> h, dis;
     std::vector<int> pre;
+    MinCostFlow() {}
+    MinCostFlow(int n_) {
+        init(n_);
+    }
+    void init(int n_) {
+        n = n_;
+        e.clear();
+        g.assign(n, {});
+    }
+    void addEdge(int u, int v, T cap, T cost) {
+        g[u].push_back(e.size());
+        e.emplace_back(v, cap, cost);
+        g[v].push_back(e.size());
+        e.emplace_back(u, 0, -cost);
+    }
     bool dijkstra(int s, int t) {
         dis.assign(n, std::numeric_limits<T>::max());
         pre.assign(n, -1);
@@ -37,27 +52,12 @@ struct MinCostFlow {
         }
         return dis[t] != std::numeric_limits<T>::max();
     }
-    MinCostFlow() {}
-    MinCostFlow(int n_) {
-        init(n_);
-    }
-    void init(int n_) {
-        n = n_;
-        e.clear();
-        g.assign(n, {});
-    }
-    void addEdge(int u, int v, T cap, T cost) {
-        g[u].push_back(e.size());
-        e.emplace_back(v, cap, cost);
-        g[v].push_back(e.size());
-        e.emplace_back(u, 0, -cost);
-    }
     std::pair<T, T> flow(int s, int t) {
         T flow = 0;
         T cost = 0;
         h.assign(n, 0);
         while (dijkstra(s, t)) {
-            for (int i = 0; i < n; ++i) {
+            for (int i = 0; i < n; i++) {
                 h[i] += dis[i];
             }
             T aug = std::numeric_limits<int>::max();
@@ -82,7 +82,7 @@ struct MinCostFlow {
     };
     std::vector<Edge> edges() {
         std::vector<Edge> a;
-        for (int i = 0; i < e.size(); i += 2) {
+        for (int i = 0; i < int(e.size()); i += 2) {
             Edge x;
             x.from = e[i + 1].to;
             x.to = e[i].to;

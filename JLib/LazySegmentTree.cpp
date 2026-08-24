@@ -1,4 +1,4 @@
-template<class Info, class Tag>
+template <class Info, class Tag>
 struct LazySegmentTree {
     int n;
     std::vector<Info> info;
@@ -7,14 +7,14 @@ struct LazySegmentTree {
     LazySegmentTree(int n_, Info v_ = Info()) {
         init(n_, v_);
     }
-    template<class T>
+    template <class T>
     LazySegmentTree(std::vector<T> init_) {
         init(init_);
     }
     void init(int n_, Info v_ = Info()) {
         init(std::vector(n_, v_));
     }
-    template<class T>
+    template <class T>
     void init(std::vector<T> init_) {
         n = init_.size();
         info.assign(4 << std::__lg(n), Info());
@@ -91,7 +91,7 @@ struct LazySegmentTree {
     void rangeApply(int l, int r, const Tag &v) {
         return rangeApply(1, 0, n, l, r, v);
     }
-    template<class F>
+    template <class F>
     int findFirst(int p, int l, int r, int x, int y, F &&pred) {
         if (l >= y || r <= x) {
             return -1;
@@ -110,11 +110,11 @@ struct LazySegmentTree {
         }
         return res;
     }
-    template<class F>
+    template <class F>
     int findFirst(int l, int r, F &&pred) {
         return findFirst(1, 0, n, l, r, pred);
     }
-    template<class F>
+    template <class F>
     int findLast(int p, int l, int r, int x, int y, F &&pred) {
         if (l >= y || r <= x) {
             return -1;
@@ -133,7 +133,7 @@ struct LazySegmentTree {
         }
         return res;
     }
-    template<class F>
+    template <class F>
     int findLast(int l, int r, F &&pred) {
         return findLast(1, 0, n, l, r, pred);
     }

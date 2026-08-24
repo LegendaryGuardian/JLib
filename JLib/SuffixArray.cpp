@@ -1,17 +1,15 @@
 struct SuffixArray {
     int n;
     std::vector<int> sa, rk, lc;
-
     SuffixArray(std::string s) {
         n = s.size();
         sa.resize(n);
         lc.resize(n - 1);
         rk.resize(n);
         std::iota(sa.begin(), sa.end(), 0);
-        std::sort(sa.begin(), sa.end(),
-            [&](int a, int b) {
-                return s[a] < s[b];
-            });
+        std::sort(sa.begin(), sa.end(), [&](int a, int b) {
+            return s[a] < s[b];
+        });
         rk[sa[0]] = 0;
         for (int i = 1; i < n; i++) {
             rk[sa[i]] = rk[sa[i - 1]] + (s[sa[i]] != s[sa[i - 1]]);

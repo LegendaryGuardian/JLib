@@ -1,4 +1,4 @@
-template<class T>
+template <class T>
 constexpr T power(T a, i64 b) {
     T res = 1;
     for (; b; b /= 2, a *= a) {
@@ -9,12 +9,11 @@ constexpr T power(T a, i64 b) {
     return res;
 }
 
-template<int P>
+template <int P>
 struct MInt {
     int x;
     constexpr MInt() : x{} {}
     constexpr MInt(i64 x) : x{norm(x % getMod())} {}
-    
     static int Mod;
     constexpr static int getMod() {
         if (P > 0) {
@@ -102,20 +101,20 @@ struct MInt {
     }
 };
 
-template<>
+template <>
 int MInt<0>::Mod = 1;
 
-template<int V, int P>
+template <int V, int P>
 constexpr MInt<P> CInv = MInt<P>(V).inv();
 
 constexpr int P = 998244353;
 using Z = MInt<P>;
 
 std::vector<int> rev;
-template<int P>
+template <int P>
 std::vector<MInt<P>> roots{0, 1};
 
-template<int P>
+template <int P>
 constexpr MInt<P> findPrimitiveRoot() {
     MInt<P> i = 2;
     int k = __builtin_ctz(P - 1);
@@ -128,16 +127,15 @@ constexpr MInt<P> findPrimitiveRoot() {
     return power(i, (P - 1) >> k);
 }
 
-template<int P>
+template <int P>
 constexpr MInt<P> primitiveRoot = findPrimitiveRoot<P>();
 
-template<>
+template <>
 constexpr MInt<998244353> primitiveRoot<998244353> {31};
 
-template<int P>
+template <int P>
 constexpr void dft(std::vector<MInt<P>> &a) {
     int n = a.size();
-    
     if (int(rev.size()) != n) {
         int k = __builtin_ctz(n) - 1;
         rev.resize(n);
@@ -145,7 +143,6 @@ constexpr void dft(std::vector<MInt<P>> &a) {
             rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
         }
     }
-    
     for (int i = 0; i < n; i++) {
         if (rev[i] < i) {
             std::swap(a[i], a[rev[i]]);
@@ -175,7 +172,7 @@ constexpr void dft(std::vector<MInt<P>> &a) {
     }
 }
 
-template<int P>
+template <int P>
 constexpr void idft(std::vector<MInt<P>> &a) {
     int n = a.size();
     std::reverse(a.begin() + 1, a.end());
@@ -186,26 +183,21 @@ constexpr void idft(std::vector<MInt<P>> &a) {
     }
 }
 
-template<int P = 998244353>
+template <int P = 998244353>
 struct Poly : public std::vector<MInt<P>> {
     using Value = MInt<P>;
-    
     Poly() : std::vector<Value>() {}
     explicit constexpr Poly(int n) : std::vector<Value>(n) {}
-    
     explicit constexpr Poly(const std::vector<Value> &a) : std::vector<Value>(a) {}
     constexpr Poly(const std::initializer_list<Value> &a) : std::vector<Value>(a) {}
-    
-    template<class InputIt, class = std::_RequireInputIter<InputIt>>
+    template <class InputIt, class = std::_RequireInputIter<InputIt>>
     explicit constexpr Poly(InputIt first, InputIt last) : std::vector<Value>(first, last) {}
-    
     template<class F>
     explicit constexpr Poly(int n, F f) : std::vector<Value>(n) {
         for (int i = 0; i < n; i++) {
             (*this)[i] = f(i);
         }
     }
-    
     constexpr Poly shift(int k) const {
         if (k >= 0) {
             auto b = *this;

@@ -1,5 +1,4 @@
-template<class T,
-    class Cmp = std::less<T>>
+template <class T, class Cmp = std::less<T>>
 struct RMQ {
     const Cmp cmp = Cmp();
     static constexpr unsigned B = 64;

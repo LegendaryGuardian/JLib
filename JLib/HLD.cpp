@@ -3,7 +3,6 @@ struct HLD {
     std::vector<int> siz, top, dep, parent, in, out, seq;
     std::vector<std::vector<int>> adj;
     int cur;
-    
     HLD() {}
     HLD(int n) {
         init(n);
@@ -35,7 +34,6 @@ struct HLD {
         if (parent[u] != -1) {
             adj[u].erase(std::find(adj[u].begin(), adj[u].end(), parent[u]));
         }
-        
         siz[u] = 1;
         for (auto &v : adj[u]) {
             parent[v] = u;
@@ -66,29 +64,22 @@ struct HLD {
         }
         return dep[u] < dep[v] ? u : v;
     }
-    
     int dist(int u, int v) {
         return dep[u] + dep[v] - 2 * dep[lca(u, v)];
     }
-    
     int jump(int u, int k) {
         if (dep[u] < k) {
             return -1;
         }
-        
         int d = dep[u] - k;
-        
         while (dep[top[u]] > d) {
             u = parent[top[u]];
         }
-        
         return seq[in[u] - dep[u] + d];
     }
-    
     bool isAncester(int u, int v) {
         return in[u] <= in[v] && in[v] < out[u];
     }
-    
     int rootedParent(int u, int v) {
         std::swap(u, v);
         if (u == v) {
@@ -102,7 +93,6 @@ struct HLD {
         }) - 1;
         return *it;
     }
-    
     int rootedSize(int u, int v) {
         if (u == v) {
             return n;
@@ -112,7 +102,6 @@ struct HLD {
         }
         return n - siz[rootedParent(u, v)];
     }
-    
     int rootedLca(int a, int b, int c) {
         return lca(a, b) ^ lca(b, c) ^ lca(c, a);
     }

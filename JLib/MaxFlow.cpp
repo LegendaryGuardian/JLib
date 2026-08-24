@@ -1,4 +1,4 @@
-template<class T>
+template <class T>
 struct MaxFlow {
     struct _Edge {
         int to;
@@ -46,7 +46,7 @@ struct MaxFlow {
             return f;
         }
         auto r = f;
-        for (int &i = cur[u]; i < int(g[u].size()); ++i) {
+        for (int &i = cur[u]; i < int(g[u].size()); i++) {
             const int j = g[u][i];
             auto [v, c] = e[j];
             if (c > 0 && h[v] == h[u] + 1) {
@@ -90,7 +90,7 @@ struct MaxFlow {
     };
     std::vector<Edge> edges() {
         std::vector<Edge> a;
-        for (int i = 0; i < e.size(); i += 2) {
+        for (int i = 0; i < int(e.size()); i += 2) {
             Edge x;
             x.from = e[i + 1].to;
             x.to = e[i].to;

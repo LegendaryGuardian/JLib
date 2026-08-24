@@ -33,23 +33,18 @@ constexpr std::pair<i64, i64> invGcd(i64 a, i64 b) {
     if (a == 0) {
         return {b, 0};
     }
-
     i64 s = b, t = a;
     i64 m0 = 0, m1 = 1;
-
     while (t) {
         i64 u = s / t;
         s -= t * u;
         m0 -= m1 * u;
-
         std::swap(s, t);
         std::swap(m0, m1);
     }
-
     if (m0 < 0) {
         m0 += b / s;
     }
-
     return {s, m0};
 }
 
@@ -68,25 +63,20 @@ public:
         }
         x = v;
     }
-
     constexpr static U mod() {
         return P;
     }
-
     constexpr U val() const {
         return x;
     }
-
     constexpr ModIntBase operator-() const {
         ModIntBase res;
         res.x = (x == 0 ? 0 : mod() - x);
         return res;
     }
-
     constexpr ModIntBase inv() const {
         return power(*this, mod() - 2);
     }
-
     constexpr ModIntBase &operator*=(const ModIntBase &rhs) & {
         x = mulMod<mod()>(x, rhs.val());
         return *this;
@@ -108,7 +98,6 @@ public:
     constexpr ModIntBase &operator/=(const ModIntBase &rhs) & {
         return *this *= rhs.inv();
     }
-
     friend constexpr ModIntBase operator*(ModIntBase lhs, const ModIntBase &rhs) {
         lhs *= rhs;
         return lhs;
@@ -125,7 +114,6 @@ public:
         lhs /= rhs;
         return lhs;
     }
-
     friend constexpr std::istream &operator>>(std::istream &is, ModIntBase &a) {
         i64 i;
         is >> i;
@@ -135,7 +123,6 @@ public:
     friend constexpr std::ostream &operator<<(std::ostream &os, const ModIntBase &a) {
         return os << a.val();
     }
-
     friend constexpr bool operator==(const ModIntBase &lhs, const ModIntBase &rhs) {
         return lhs.val() == rhs.val();
     }
@@ -155,17 +142,13 @@ using ModInt64 = ModIntBase<u64, P>;
 struct Barrett {
 public:
     Barrett(u32 m_) : m(m_), im((u64)(-1) / m_ + 1) {}
-
     constexpr u32 mod() const {
         return m;
     }
-
     constexpr u32 mul(u32 a, u32 b) const {
         u64 z = a;
         z *= b;
-
         u64 x = u64((u128(z) * im) >> 64);
-
         u32 v = u32(z - x * m);
         if (m <= v) {
             v += m;
@@ -192,31 +175,25 @@ public:
         }
         x = v;
     }
-
     constexpr static void setMod(u32 m) {
         bt = m;
     }
-
     static u32 mod() {
         return bt.mod();
     }
-
     constexpr u32 val() const {
         return x;
     }
-
     constexpr DynModInt operator-() const {
         DynModInt res;
         res.x = (x == 0 ? 0 : mod() - x);
         return res;
     }
-
     constexpr DynModInt inv() const {
         auto v = invGcd(x, mod());
         assert(v.first == 1);
         return v.second;
     }
-
     constexpr DynModInt &operator*=(const DynModInt &rhs) & {
         x = bt.mul(x, rhs.val());
         return *this;
@@ -238,7 +215,6 @@ public:
     constexpr DynModInt &operator/=(const DynModInt &rhs) & {
         return *this *= rhs.inv();
     }
-
     friend constexpr DynModInt operator*(DynModInt lhs, const DynModInt &rhs) {
         lhs *= rhs;
         return lhs;
@@ -255,7 +231,6 @@ public:
         lhs /= rhs;
         return lhs;
     }
-
     friend constexpr std::istream &operator>>(std::istream &is, DynModInt &a) {
         i64 i;
         is >> i;
@@ -265,7 +240,6 @@ public:
     friend constexpr std::ostream &operator<<(std::ostream &os, const DynModInt &a) {
         return os << a.val();
     }
-
     friend constexpr bool operator==(const DynModInt &lhs, const DynModInt &rhs) {
         return lhs.val() == rhs.val();
     }

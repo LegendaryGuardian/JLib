@@ -1,5 +1,6 @@
 struct Node {
-    Node *ch[2], *p;
+    std::array<Node *, 2> ch;
+    Node *p;
     bool rev;
     Node() : ch{nullptr, nullptr}, p(nullptr), rev(false) {};
 };
