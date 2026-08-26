@@ -2,7 +2,15 @@ struct TwoSat {
     int n;
     std::vector<std::vector<int>> e;
     std::vector<bool> ans;
-    TwoSat(int n) : n(n), e(2 * n), ans(n) {}
+    TwoSat() {}
+    TwoSat(int n) {
+        init(n);
+    }
+    void init(int n) {
+        this->n = n;
+        e.assign(2 * n, {});
+        ans.resize(n);
+    }
     void addClause(int u, bool f, int v, bool g) {
         e[2 * u + !f].push_back(2 * v + g);
         e[2 * v + !g].push_back(2 * u + f);
@@ -29,15 +37,23 @@ struct TwoSat {
                     stk.pop_back();
                     id[v] = cnt;
                 } while (v != u);
-                ++cnt;
+                cnt++;
             }
         };
-        for (int i = 0; i < 2 * n; ++i) if (dfn[i] == -1) tarjan(i);
+        for (int i = 0; i < 2 * n; ++i) {
+            if (dfn[i] == -1) {
+                tarjan(i);
+            }
+        }
         for (int i = 0; i < n; ++i) {
-            if (id[2 * i] == id[2 * i + 1]) return false;
+            if (id[2 * i] == id[2 * i + 1]) {
+                return false;
+            }
             ans[i] = id[2 * i] > id[2 * i + 1];
         }
         return true;
     }
-    std::vector<bool> answer() { return ans; }
+    std::vector<bool> answer() {
+        return ans;
+    }
 };

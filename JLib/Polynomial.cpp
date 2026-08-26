@@ -192,7 +192,7 @@ struct Poly : public std::vector<MInt<P>> {
     constexpr Poly(const std::initializer_list<Value> &a) : std::vector<Value>(a) {}
     template <class InputIt, class = std::_RequireInputIter<InputIt>>
     explicit constexpr Poly(InputIt first, InputIt last) : std::vector<Value>(first, last) {}
-    template<class F>
+    template <class F>
     explicit constexpr Poly(int n, F f) : std::vector<Value>(n) {
         for (int i = 0; i < n; i++) {
             (*this)[i] = f(i);
@@ -407,7 +407,7 @@ struct Poly : public std::vector<MInt<P>> {
     }
 };
 
-template<int P = 998244353>
+template <int P = 998244353>
 Poly<P> berlekampMassey(const Poly<P> &s) {
     Poly<P> c;
     Poly<P> oldC;
@@ -450,7 +450,7 @@ Poly<P> berlekampMassey(const Poly<P> &s) {
     return c;
 }
 
-template<int P = 998244353>
+template <int P = 998244353>
 MInt<P> linearRecurrence(Poly<P> p, Poly<P> q, i64 n) {
     int m = q.size() - 1;
     while (n > 0) {
