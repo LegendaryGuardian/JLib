@@ -1,0 +1,2 @@
+# JLib
+[JLib](https://github.com/LegendaryGuardian/JLib/tree/main/JLib) 中的代码并非作者原创，而是整理自 [jiangly](https://codeforces.com/profile/jiangly) 在 [Codeforces](https://codeforces.com)、[AtCoder](https://atcoder.jp)、[牛客竞赛](https://ac.nowcoder.com)、[QOJ](https://qoj.ac) 上的提交。
