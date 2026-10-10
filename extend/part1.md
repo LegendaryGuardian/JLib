@@ -392,8 +392,8 @@ Node *merge(Node *a, Node *b) {
 
 ```cpp
 struct Basis {
-    std::array<int, 20> a;
-    std::array<int, 20> t;
+    std::array<int, K> a {};
+    std::array<int, K> t {};
     
     Basis() {
         t.fill(-1);
@@ -403,7 +403,7 @@ struct Basis {
 
 ```cpp
 void add(int x, int y = 1E9) {
-    for (int i = 19; i >= 0; i--) {
+    for (int i = K - 1; i >= 0; i--) {
         if (x >> i & 1) {
             if (y > t[i]) {
                 std::swap(a[i], x);
@@ -416,8 +416,20 @@ void add(int x, int y = 1E9) {
 ```
 
 ```cpp
+int queryMax(int y = 0) {
+    int x = 0;
+    for (int i = K - 1; i >= 0; i--) {
+        if ((~x >> i & 1) && t[i] >= y) {
+            x ^= a[i];
+        }
+    }
+    return x;
+}
+```
+
+```cpp
 bool contains(int x, int y = 0) {
-    for (int i = 0; i < 20; i++) {
+    for (int i = K - 1; i >= 0; i--) {
         if ((x >> i & 1) && t[i] >= y) {
             x ^= a[i];
         }
@@ -429,7 +441,7 @@ bool contains(int x, int y = 0) {
 ```cpp
 int size(int y = 0) {
     int cnt = 0;
-    for (int 0; i < 19; i++) {
+    for (int i = 0; i < K; i++) {
         cnt += a[i] && t[i] >= y;
     }
     return cnt;
@@ -440,7 +452,7 @@ int size(int y = 0) {
 int kth(int k, int y = 0) {
     int cnt = size(y);
     int x = 0;
-    for (int i = 19; i >= 0; i--) {
+    for (int i = K - 1; i >= 0; i--) {
         if (a[i] && t[i] >= y) {
             cnt--;
             if ((x >> i & 1) != (k >> cnt & 1)) {
@@ -455,7 +467,7 @@ int kth(int k, int y = 0) {
 ```cpp
 int rank(int x, int y = 0) {
     int k = 0;
-    for (int i = 19; i >= 0; i--) {
+    for (int i = K - 1; i >= 0; i--) {
         if (a[i] && t[i] >= y) {
             k = k * 2 + (x >> i & 1);
         }
